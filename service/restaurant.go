@@ -25,7 +25,7 @@ func (c *RestoranService) CreateRestoran(ctx context.Context, Restoran *pb.Resto
 	return pb, err
 }
 
-func (c *RestoranService) GetAllRestorans(ctx context.Context, pb *pb.Restoran) (*pb.GetAllRestorans, error) {
+func (c *RestoranService) GetAllRestoran(ctx context.Context, pb *pb.Restoran) (*pb.GetAllRestorans, error) {
 	Restorans, err := c.stg.Restoran().GetAllRestoran(pb)
 	if err != nil {
 		log.Print(err)
