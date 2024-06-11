@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/dilshodforever/reservation-service/config"
 	st "github.com/dilshodforever/reservation-service/storage"
 
@@ -10,11 +11,11 @@ import (
 )
 
 type Storage struct {
-	Db      *sql.DB
-	Restorans 	st.Restoran
-	Reservations st.Reservation
+	Db                *sql.DB
+	Restorans         st.Restoran
+	Reservations      st.Reservation
 	ReservationOrders st.ReservationOrder
-	Menus st.Menu
+	Menus             st.Menu
 }
 
 func NewPostgresStorage() (st.InitRoot, error) {
@@ -36,35 +37,30 @@ func NewPostgresStorage() (st.InitRoot, error) {
 
 }
 
-func (s *Storage) Restoran() st.Restoran{
+func (s *Storage) Restoran() st.Restoran {
 	if s.Restorans == nil {
 		s.Restorans = &Restorantorage{s.Db}
 	}
 	return s.Restorans
 }
 
-func (s *Storage) Reservation() st.Reservation{
+func (s *Storage) Reservation() st.Reservation {
 	if s.Reservations == nil {
 		s.Reservations = &Reservationstorage{s.Db}
 	}
 	return s.Reservations
 }
 
-func (s *Storage) ReservationOrder() st.ReservationOrder{
+func (s *Storage) ReservationOrder() st.ReservationOrder {
 	if s.ReservationOrders == nil {
 		s.ReservationOrders = &ReservationOrderstorage{s.Db}
 	}
 	return s.ReservationOrders
 }
 
-func (s *Storage) Menu() st.Menu{
+func (s *Storage) Menu() st.Menu {
 	if s.Menus == nil {
 		s.Menus = &Menustorage{s.Db}
 	}
 	return s.Menus
 }
-
-
-
-
-

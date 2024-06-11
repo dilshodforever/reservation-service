@@ -24,7 +24,7 @@ func (p *Restorantorage) CreateRestoran(restoran *pb.Restoran) (*pb.Void, error)
 		INSERT INTO restaurants (id, name, address, phone_number, description)
 		VALUES ($1, $2, $3, $4, $5)
 	`
-	_, err := p.db.Exec(query, id, restoran.Name, restoran.Address, 
+	_, err := p.db.Exec(query, id, restoran.Name, restoran.Address,
 		restoran.PhoneNumber, restoran.Description)
 	return nil, err
 }
@@ -63,6 +63,16 @@ func (p *Restorantorage) GetAllRestoran(rest *pb.Restoran) (*pb.GetAllRestorans,
 		count++
 		arr = append(arr, rest.Address)
 	}
+	if len(rest.PhoneNumber) > 0 {
+		query += fmt.Sprintf(" and phone_number=$%d", count)
+		count++
+		arr = append(arr, rest.PhoneNumber)
+	}
+	if len(rest.Description) > 0 {
+		query += fmt.Sprintf(" and description=$%d", count)
+		count++
+		arr = append(arr, rest.Description)
+	}
 	row, err := p.db.Query(query, arr...)
 	if err != nil {
 		return nil, err
@@ -96,4 +106,3 @@ func (p *Restorantorage) DeleteRestoran(id *pb.ById) (*pb.Void, error) {
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)
 	return nil, err
 }
-

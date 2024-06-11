@@ -7,10 +7,8 @@ import (
 
 	pb "github.com/dilshodforever/reservation-service/genprotos"
 
-	"github.com/google/uuid"	
+	"github.com/google/uuid"
 )
-
-
 
 type ReservationOrderstorage struct {
 	db *sql.DB
@@ -54,10 +52,10 @@ func (p *ReservationOrderstorage) GetAllReservationOrder(reservationOrder *pb.Re
 			where delated_at=0 `
 	var arr []interface{}
 	count := 1
-	if len(reservationOrder.ReservationId) > 0 {
-		query += fmt.Sprintf(" and reservation_id=$%d", count)
+	if len(reservationOrder.Quantity) > 0 {
+		query += fmt.Sprintf(" and quantity=$%d", count)
 		count++
-		arr = append(arr, reservationOrder.ReservationId)
+		arr = append(arr, reservationOrder.Quantity)
 	}
 	if len(reservationOrder.MenuItemId) > 0 {
 		query += fmt.Sprintf(" and menu_item_id=$%d", count)
@@ -80,7 +78,6 @@ func (p *ReservationOrderstorage) GetAllReservationOrder(reservationOrder *pb.Re
 	return ReservationOrders, nil
 }
 
-
 func (p *ReservationOrderstorage) UpdateReservationOrder(reservationOrder *pb.ReservationOrder) (*pb.Void, error) {
 	query := `
 		UPDATE reservation_orders
@@ -90,7 +87,6 @@ func (p *ReservationOrderstorage) UpdateReservationOrder(reservationOrder *pb.Re
 	_, err := p.db.Exec(query, reservationOrder.ReservationId, reservationOrder.MenuItemId, reservationOrder.Quantity, reservationOrder.Id)
 	return nil, err
 }
-
 
 func (p *ReservationOrderstorage) DeleteReservationOrder(id *pb.ById) (*pb.Void, error) {
 	query := `
