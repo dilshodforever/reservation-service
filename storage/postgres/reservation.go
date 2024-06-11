@@ -52,22 +52,16 @@ func (p *Reservationstorage) GetAllReservation(res *pb.Reservation) (*pb.GetAllR
 			where delated_at=0 `
 	var arr []interface{}
 	count := 1
-	if len(res.UserId) > 0 {
-		query += fmt.Sprintf(" and user_id=$%d", count)
+	if len(res.Status) > 0 {
+		query += fmt.Sprintf(" and status=$%d", count)
 		count++
-		arr = append(arr, res.UserId)
-	}
-	if len(res.RestaurantId) > 0 {
-		query += fmt.Sprintf(" and restaurant_id=$%d", count)
-		count++
-		arr = append(arr, res.RestaurantId)
+		arr = append(arr, res.Status)
 	}
 	if len(res.ReservationTime) > 0 {
 		query += fmt.Sprintf(" and reservation_time=$%d", count)
 		count++
 		arr = append(arr, res.ReservationTime)
 	}
-
 
 	row, err := p.db.Query(query, arr...)
 	if err != nil {
@@ -83,10 +77,8 @@ func (p *Reservationstorage) GetAllReservation(res *pb.Reservation) (*pb.GetAllR
 		Reservations.Reservations = append(Reservations.Reservations, &Reservation)
 	}
 
-
 	return Reservations, nil
 }
-		
 
 func (p *Reservationstorage) UpdateReservation(reservation *pb.Reservation) (*pb.Void, error) {
 	query := `
