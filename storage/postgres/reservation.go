@@ -24,7 +24,10 @@ func (p *Reservationstorage) CreateReservation(reservation *pb.Reservation) (*pb
 		INSERT INTO reservations (id, user_id, restaurant_id, reservation_time)
 		VALUES ($1, $2, $3, $4)
 	`
-	_, err := p.db.Exec(query, id, reservation.UserId, reservation.RestaurantId, reservation.ReservationTime, reservation.Status)
+	_, err := p.db.Exec(query, id, reservation.UserId, reservation.RestaurantId, reservation.ReservationTime)
+	if err!=nil{
+		panic(err)
+	}
 	return nil, err
 }
 

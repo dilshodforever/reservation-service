@@ -21,6 +21,7 @@ func main() {
 
 	s := grpc.NewServer()
 	pb.RegisterRestoranServiceServer(s, service.NewRestoranService(db))
+	pb.RegisterReservationServiceServer(s, service.NewReservationService(db))
 	log.Printf("server listening at %v", liss.Addr())
 	if err := s.Serve(liss); err != nil {
 		log.Fatalf("failed to serve: %v", err)
