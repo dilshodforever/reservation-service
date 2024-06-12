@@ -16,7 +16,7 @@ CREATE TABLE reservations (
     user_id UUID ,
     restaurant_id UUID references restaurants(id),
     reservation_time TIMESTAMP NOT NULL,
-    status reservation_status NOT NULL,
+    status reservation_status NOT NULL default 'busy',
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at bigint DEFAULT 0

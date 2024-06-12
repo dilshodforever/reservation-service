@@ -50,7 +50,7 @@ func (p *Restorantorage) GetAllRestoran(rest *pb.Restoran) (*pb.GetAllRestorans,
 	Restoran := &pb.GetAllRestorans{}
 	var query string
 	query = ` SELECT name, address, phone_number, description from restaurants 
-			where delated_at=0 `
+			where delated_at=0`
 	var arr []interface{}
 	count := 1
 	if len(rest.Name) > 0 {

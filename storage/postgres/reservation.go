@@ -21,8 +21,8 @@ func NewReservationstorage(db *sql.DB) *Reservationstorage {
 func (p *Reservationstorage) CreateReservation(reservation *pb.Reservation) (*pb.Void, error) {
 	id := uuid.NewString()
 	query := `
-		INSERT INTO reservations (id, user_id, restaurant_id, reservation_time, status)
-		VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO reservations (id, user_id, restaurant_id, reservation_time)
+		VALUES ($1, $2, $3, $4)
 	`
 	_, err := p.db.Exec(query, id, reservation.UserId, reservation.RestaurantId, reservation.ReservationTime, reservation.Status)
 	return nil, err
@@ -31,7 +31,7 @@ func (p *Reservationstorage) CreateReservation(reservation *pb.Reservation) (*pb
 func (p *Reservationstorage) GetByIdReservation(id *pb.ById) (*pb.Reservation, error) {
 	query := `
 			SELECT user_id, restaurant_id, reservation_time, status from reservations 
-			where id =$1 and delated_at=0
+			where id =$1 and delated_at=0 and status='empty'
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -49,7 +49,7 @@ func (p *Reservationstorage) GetAllReservation(res *pb.Reservation) (*pb.GetAllR
 	Reservations := &pb.GetAllReservations{}
 	var query string
 	query = ` SELECT user_id, restaurant_id, reservation_time, status from reservations 
-			where delated_at=0 `
+			where delated_at=0 and status='empty'`
 	var arr []interface{}
 	count := 1
 	if len(res.UserId) > 0 {
