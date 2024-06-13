@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"log"
+
 	pb "github.com/dilshodforever/reservation-service/genprotos"
 	s "github.com/dilshodforever/reservation-service/storage"
-
 )
 
 type RestoranService struct {
@@ -60,4 +60,3 @@ func (c *RestoranService) DeleteRestoran(ctx context.Context, id *pb.ById) (*pb.
 
 	return pb, err
 }
-

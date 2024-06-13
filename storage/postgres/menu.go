@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 
 	pb "github.com/dilshodforever/reservation-service/genprotos"
@@ -44,15 +45,28 @@ func (p *Menustorage) GetByIdMenu(id *pb.ById) (*pb.Menu, error) {
 	return &Menu, nil
 }
 
-func (p *Menustorage) GetAllMenu(_ *pb.Menu) (*pb.GetAllMenus, error) {
+func (p *Menustorage) GetAllMenu(m *pb.Menu) (*pb.GetAllMenus, error) {
+	var arr []interface{}
+	count := 1
 	query := `
 			SELECT restaurant_id, name, description, price from menus 
-			where delated_at=0
-		`
-	rows, err := p.db.Query(query)
+			where delated_at=0 `
+
+	if len(m.Name) > 0 {
+		query += fmt.Sprintf(" and name=$%d", count)
+		count++
+		arr = append(arr, m.Name)
+	}
+	if m.Price != 0 {
+		query += fmt.Sprintf(" and user_name=$%d", count)
+		count++
+		arr = append(arr, m.Price)
+	}
+	rows, err := p.db.Query(query, arr...)
 	if err != nil {
 		return nil, err
 	}
+
 	defer rows.Close()
 
 	var Menus pb.GetAllMenus
