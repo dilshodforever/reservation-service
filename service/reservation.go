@@ -60,3 +60,13 @@ func (c *ReservationService) DeleteReservation(ctx context.Context, id *pb.ById)
 
 	return pb, err
 }
+
+
+
+func (c *ReservationService) Reservations(ctx context.Context, Reservation *pb.Reservation) (*pb.Void, error) {
+	pb, err := c.stg.Reservation().Reservations(Reservation)
+	if err != nil {
+		log.Print(err)
+	}
+	return pb, err
+}

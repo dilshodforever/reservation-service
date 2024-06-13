@@ -32,7 +32,7 @@ func (p *Restorantorage) CreateRestoran(restoran *pb.Restoran) (*pb.Void, error)
 func (p *Restorantorage) GetByIdRestoran(id *pb.ById) (*pb.Restoran, error) {
 	query := `
 			SELECT name, address, phone_number, description from restaurants 
-			where id =$1 and delated_at=0
+			where id =$1 and delated_at=0 
 		`
 	row := p.db.QueryRow(query, id.Id)
 

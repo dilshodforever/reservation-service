@@ -24,6 +24,7 @@ type Reservation interface {
 	GetAllReservation(_ *pb.Reservation) (*pb.GetAllReservations, error)
 	UpdateReservation(Reservation *pb.Reservation) (*pb.Void, error)
 	DeleteReservation(id *pb.ById) (*pb.Void, error)
+	Reservations(Reservation *pb.Reservation) (*pb.Void, error)
 }
 
 type ReservationOrder interface {
