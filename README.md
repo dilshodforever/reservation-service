@@ -1,5 +1,5 @@
 
-# Restaurant reservation system
+# Restaurant reservation system(Reservation microservice)
 
 
 This microservice handles the core functionalities related to managing restaurant reservations, 
@@ -7,7 +7,7 @@ including booking tables, selecting meals, processing payments, and managing res
 
 ## Overview
 
-The Reservation Microservice provides RESTful APIs to:
+The Reservation Microservice provides APIs to:
 
 - **Check Table Availability**: Verify the availability of tables for a given date and time.
 - **Book Tables**: Allow users to book available tables.
