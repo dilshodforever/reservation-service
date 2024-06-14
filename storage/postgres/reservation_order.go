@@ -31,7 +31,7 @@ func (p *ReservationOrderstorage) CreateReservationOrder(reservationOrder *pb.Re
 func (p *ReservationOrderstorage) GetByIdReservationOrder(id *pb.ById) (*pb.ReservationOrder, error) {
 	query := `
 			SELECT reservation_id, menu_item_id, quantity from reservation_orders 
-			where id =$1 and delated_at=0
+			where id =$1 and deleted_at=0
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -49,7 +49,7 @@ func (p *ReservationOrderstorage) GetAllReservationOrder(reservationOrder *pb.Re
 	ReservationOrders := &pb.GetAllReservationOrders{}
 	var query string
 	query = ` SELECT reservation_id, menu_item_id, quantity from reservation_orders 
-			where delated_at=0 `
+			where deleted_at=0 `
 	var arr []interface{}
 	count := 1
 	if len(reservationOrder.Quantity) > 0 {
@@ -91,7 +91,7 @@ func (p *ReservationOrderstorage) UpdateReservationOrder(reservationOrder *pb.Re
 func (p *ReservationOrderstorage) DeleteReservationOrder(id *pb.ById) (*pb.Void, error) {
 	query := `
 		UPDATE reservation_orders
-		SET delated_at = $1
+		SET deleted_at = $1
 		WHERE id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

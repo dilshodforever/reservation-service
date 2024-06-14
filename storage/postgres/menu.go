@@ -31,7 +31,7 @@ func (p *Menustorage) CreateMenu(menu *pb.Menu) (*pb.Void, error) {
 func (p *Menustorage) GetByIdMenu(id *pb.ById) (*pb.Menu, error) {
 	query := `
 			SELECT restaurant_id, name, description, price from menus 
-			where id =$1 and delated_at=0
+			where id =$1 and deleted_at=0
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -50,7 +50,7 @@ func (p *Menustorage) GetAllMenu(m *pb.Menu) (*pb.GetAllMenus, error) {
 	count := 1
 	query := `
 			SELECT restaurant_id, name, description, price from menus 
-			where delated_at=0 `
+			where deleted_at=0 `
 
 	if len(m.Name) > 0 {
 		query += fmt.Sprintf(" and name=$%d", count)
@@ -94,7 +94,7 @@ func (p *Menustorage) UpdateMenu(menu *pb.Menu) (*pb.Void, error) {
 func (p *Menustorage) DeleteMenu(id *pb.ById) (*pb.Void, error) {
 	query := `
 		UPDATE menus
-		SET delated_at = $1
+		SET deleted_at = $1
 		WHERE id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

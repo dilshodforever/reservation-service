@@ -32,7 +32,7 @@ func (p *Restorantorage) CreateRestoran(restoran *pb.Restoran) (*pb.Void, error)
 func (p *Restorantorage) GetByIdRestoran(id *pb.ById) (*pb.Restoran, error) {
 	query := `
 			SELECT name, address, phone_number, description from restaurants 
-			where id =$1 and delated_at=0 
+			where id =$1 and deleted_at=0 
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -50,7 +50,7 @@ func (p *Restorantorage) GetAllRestoran(rest *pb.Restoran) (*pb.GetAllRestorans,
 	Restoran := &pb.GetAllRestorans{}
 	var query string
 	query = ` SELECT name, address, phone_number, description from restaurants 
-			where delated_at=0`
+			where deleted_at=0`
 	var arr []interface{}
 	count := 1
 	if len(rest.Name) > 0 {
@@ -100,7 +100,7 @@ func (p *Restorantorage) UpdateRestoran(Restoran *pb.Restoran) (*pb.Void, error)
 
 func (p *Restorantorage) DeleteRestoran(id *pb.ById) (*pb.Void, error) {
 	query := `
-		update from restaurants set delated_at=$1
+		update from restaurants set deleted_at=$1
 		where id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

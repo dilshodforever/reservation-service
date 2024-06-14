@@ -27,9 +27,11 @@ func (p *Reservationstorage) CreateReservation(reservation *pb.Reservation) (*pb
 		return &pb.Void{}, fmt.Errorf("bu joy band")
 	}
 	query := `
-		update  reservations set user_id=$1, restaurant_id=$2, reservation_time=$3, status='busy'
+		INSERT INTO reservations (user_id, restaurant_id, reservation_time, status)
+		VALUES ($1, $2, $3, $4)
 	`
-	_, err = p.db.Exec(query, reservation.UserId, reservation.RestaurantId, reservation.ReservationTime)
+	
+	_, err = p.db.Exec(query, reservation.UserId, reservation.RestaurantId, reservation.ReservationTime, reservation.Status)
 	if err!=nil{
 		panic(err)
 	}
@@ -39,7 +41,7 @@ func (p *Reservationstorage) CreateReservation(reservation *pb.Reservation) (*pb
 func (p *Reservationstorage) GetByIdReservation(id *pb.ById) (*pb.Reservation, error) {
 	query := `
 			SELECT user_id, restaurant_id, reservation_time, status from reservations 
-			where id =$1 and delated_at=0 and status='empty'
+			where id =$1 and deleted_at=0 and status='empty'
 		`
 	row := p.db.QueryRow(query, id.Id)
 
@@ -60,7 +62,7 @@ func (p *Reservationstorage) GetAllReservation(res *pb.Reservation) (*pb.GetAllR
 				re.address, re.phone_number, re.description from reservations r
 				join restaurants re 
 				on r.restaurant_id=re.id
-			    where delated_at=0 and status='empty'`
+			    where r.deleted_at=0 and r.status='empty'`
 	var arr []interface{}
 	count := 1
 	if len(res.UserId) > 0 {
@@ -112,7 +114,7 @@ func (p *Reservationstorage) UpdateReservation(reservation *pb.Reservation) (*pb
 func (p *Reservationstorage) DeleteReservation(id *pb.ById) (*pb.Void, error) {
 	query := `
 		UPDATE reservations
-		SET delated_at = $1
+		SET deleted_at = $1
 		WHERE id = $2
 	`
 	_, err := p.db.Exec(query, time.Now().Unix(), id.Id)

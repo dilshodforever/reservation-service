@@ -15,12 +15,12 @@ CREATE TABLE reservations (
     id UUID PRIMARY KEY default gen_random_uuid(),
     user_id UUID ,
     restaurant_id UUID references restaurants(id),
-    reservation_time TIMESTAMP NOT NULL,
+    reservation_time TIMESTAMP DEFAULT NOW(),
     status reservation_status NOT NULL default 'busy',
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at bigint DEFAULT 0
-)
+);
 
 CREATE TABLE reservation_orders(
     id UUID PRIMARY KEY default gen_random_uuid(),
@@ -30,7 +30,7 @@ CREATE TABLE reservation_orders(
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at bigint DEFAULT 0
-)
+);
 
 CREATE TABLE menus (
     id UUID PRIMARY KEY default gen_random_uuid(),
@@ -41,4 +41,4 @@ CREATE TABLE menus (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at bigint DEFAULT 0
-)
+);
