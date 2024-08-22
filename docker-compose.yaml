@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  # resservation-restaurant
+  resservation-restaurant:
+    container_name: resservation-restaurant
+    build: ./
+    ports:
+      - "6060:6060"
